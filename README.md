@@ -2,11 +2,13 @@
 BitCorps Virtual Machine
 ========================
 
-To try out out, view the demo: [http://htmlpreview.github.io/?https://github.com/bitw1se/slow-bcvm-js/blob/master/index.html]
+To try out out, [view the demo](http://htmlpreview.github.io/?https://github.com/bitw1se/slow-bcvm-js/blob/master/index.html)
 
 BCVM is a basic virtual machine for Javascript built to manipulate arbitrary-precision integers at configurably slow speeds. The motivation is to offload computations onto the client-side seamlessly through Javascript without pegging the user's CPU.
 
-The goal of this particular example is to break an RSA key through massively parallel distributed computation. If this script were included in a webpage *without* the explicit knowledge of the visitor, it could almost be called an exploit -- a popular enough page would clearly be able to make considerable use of the distributed computational power, even at the slowed-down speeds necessary to avoid user detection/frustration.
+The goal of this particular example is to break an RSA key through massively parallel distributed computation. If you were to use a bignum library in Javascript to try and break encryption keys, you would likely crash the client-side machine. BCVM runs bytecode slowly -- pausing for some amount of time every `n` cycles. This allows for execution of arbitrary code on the client-side without disrupting the user.
+
+If this script were included in a webpage *without* the explicit knowledge of the visitor, it could almost be called an exploit -- a popular enough page would clearly be able to make considerable use of the distributed computational power, even at the slowed-down speeds necessary to avoid user detection/frustration. *Please do not use this script for any malicious purposes -- it is an interesting example only.*
 
 ### The basic overview
 

@@ -73,7 +73,9 @@ function vm_next(){
     } else if(op == "stxp"){
       memory[inst["args"][0]] = inst_idx;
     } else if(op == "rndi"){
-      memory[inst["args"][0]] = Math.floor(Math.random() * memory[inst["args"][1]]);
+      var x = Math.floor(Math.random() * memory[inst["args"][1]]);
+     console.log("Random: " + x.toString() + " (" + inst["args"][0].toString() + ")");
+      memory[memory[inst["args"][0]]] = x;
     } else if(op == "ldxp"){
       inst_idx = memory[inst["args"][0]];
     } else if(op == "ldxc"){
