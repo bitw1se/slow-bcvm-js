@@ -2,7 +2,7 @@
 BitCorps Virtual Machine
 ========================
 
-To try out out, [view the demo](http://htmlpreview.github.io/?https://github.com/bitw1se/slow-bcvm-js/blob/master/index.html)
+To try it out, [view the demo](http://htmlpreview.github.io/?https://github.com/bitw1se/slow-bcvm-js/blob/master/index.html).
 
 BCVM is a basic virtual machine for Javascript built to manipulate arbitrary-precision integers at configurably slow speeds. The motivation is to offload computations onto the client-side seamlessly through Javascript without pegging the user's CPU.
 
