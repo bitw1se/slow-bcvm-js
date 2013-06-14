@@ -15,9 +15,19 @@ function make_digits(s,n){
 var fermatIters = 3;
 var timeout = 1000;
 var target_digits = [1,2,5,1];
-var max_digits = 8;
-var key_digits = make_digits((2663 * 19).toString(),max_digits);
+var max_digits = 16;
+var key_digits = make_digits((257 * 139).toString(),max_digits);
 var test_digits = make_digits("19",max_digits);
+
+function digit_length(arr){
+  var c = 0;
+  for(var i = 0; i < arr.length; i++){
+    if(arr[i] == 0){
+      c += 1;
+    } else { break; } 
+  }
+  return (arr.length - c);
+}
 
 function start_bcfactoring(){
   /*
@@ -30,6 +40,7 @@ function start_bcfactoring(){
 
    */
   var N = max_digits;
+  vm_mem_size = N * 5;
   var neg1 = 3*N + 2;
   var four = 3*N + 4;
   var one = 3*N + 6;
@@ -42,10 +53,12 @@ function start_bcfactoring(){
   var memcond1 = 3*N + 12;
   var rndctr = 3*N + 13;
   var rndidx = 3*N + 14;
+  var rndchk = 3*N + 15;
+  var memrndchk = 3*N + 16;
 
   var unrolled_iters = [];
   var gen_iters = [];
-  var q = 3*N/4;
+  var q = N - (digit_length(key_digits) - 1);
   for(var i = 0; i < q; i++){
     gen_iters = gen_iters.concat([
       {"op": "add", "args": [rndidx,one,rndidx]}
@@ -58,8 +71,13 @@ function start_bcfactoring(){
       {"op": "dump"}
     ]); 
   }
-
-
+/*
+  gen_iters = gen_iters.concat([
+      {"op": "lcmp", "args": [memrndchk,nmem,zero,nmem]},
+      {"op": "gtc", "args": [rndchk,rndchk,neg1]},
+      {"op": "ldxc", "args": [rndchk,one]}
+  ]);
+*/
   for(var i = 0; i < N; i++){
     unrolled_iters = unrolled_iters.concat([
 	{"op": "lsubi", "args": [nmem, zero, nmem, ctr1]},
@@ -72,6 +90,7 @@ function start_bcfactoring(){
 	{"op": "dump"},
 	{"op": "set", "args": [four, 4]},
 	{"op": "set", "args": [nmem, N]},
+	{"op": "set", "args": [memrndchk, rndchk]},
 	{"op": "set", "args": [one, 1]},
 	{"op": "set", "args": [ten, 10]},
 	{"op": "set", "args": [neg1, -1]},

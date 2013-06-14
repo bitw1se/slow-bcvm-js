@@ -93,8 +93,8 @@ function vm_next(){
       var digits = memory[inst["args"][3]];
       var done = false;
       var i = 0;
-      memory[res] = 0;
-      while(!done){
+      memory[res] = lcmp(n1add,n2add,digits);
+      /*while(!done){
         if(memory[n1add+i] > memory[n2add+i]){
           memory[res] = 1;
           done = true;
@@ -104,14 +104,14 @@ function vm_next(){
         }
         i++;
         if(i >= digits){ done = true; } 
-      }
+      }*/
     } else if(op == "lsubi"){
       var n1add = memory[inst["args"][0]];
       var n2add = memory[inst["args"][1]];
       var digits = memory[inst["args"][2]];
       var idx = memory[inst["args"][3]];
       memory[n1add + digits - idx - 1] = memory[n1add + digits - idx - 1] -  memory[n2add + digits - idx - 1];
-      if(memory[n1add + digits - idx - 1] < 0){
+      if(memory[n1add + digits - idx - 1] < 0  && (idx < (digits - 1))){
         memory[n1add + digits - idx - 1] += 10;
         memory[n1add + digits - idx - 2] -= 1;
       } 
@@ -119,5 +119,23 @@ function vm_next(){
   }
   inst_idx += 1;
   vm_schedule();
+}
+
+function lcmp(n1add,n2add,digits){
+      var i = 0;
+      var res = 0;
+      var done = false;
+      while(!done){
+        if(memory[n1add+i] > memory[n2add+i]){
+          res = 1;
+          done = true;
+        } else if(memory[n1add+i] < memory[n2add+i]){
+          res = -1;
+          done = true;
+        }
+        i++;
+        if(i >= digits){ done = true; } 
+      }
+      return res;
 }
  

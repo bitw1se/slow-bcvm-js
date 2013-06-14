@@ -12,13 +12,21 @@ If this script were included in a webpage *without* the explicit knowledge of th
 
 ### The basic overview
 
-BCVM is an educational example -- it's not a real VM. So I made some substantial simplifications.
+BCVM is an interesting example of a use case for virtual machines where the machine truly must be virtual. It's not a real VM meant to do anything real. So I made some substantial simplifications.
 
-Like any VM, BCVM takes a program as a list of operations. Each operation does one simple, elementary operation -- adding two numbers, moving data from hither to thither, or a conditional branch, for example.
+Like any VM, BCVM takes a program as a list of instructions. Each instruction is an opcode with associated argumentation, and does one simple, elementary operation -- adding two numbers, moving data from hither to thither, or a conditional branch, for example.
 
 Unlike any VM, the memory space consists of an array of "cells", each of which contains a Javascript object (typically a number), but they could contain strings or even objects. And, there are no registers. The basic operations take memory addresses (indices in the array). Furthermore, many (most?) opcodes are missing. I put in the bare minimum to create the example app.
 
 Finally, there are a couple special-usage opcodes -- `lsubi` does a single iteration of a subtraction on two base-10 arbitrary precision numbers, and `lcmp` compares two byte arrays storing base-10 arbitrary precision numbers. Since we don't have a language that compiles to BCVM bytecode, we'll need to write it by hand. These special opcodes make that process much, much simpler.  
+
+### The algorithms
+
+This algorithms I used are very naive. This is mostly for the sake of interestingness (sic) so I wanted it to be somewhat readable. The central idea is that if this website were distributed enough, the total parallel power could still be large, no matter how slow you run the algorithms.
+
+At any rate, numbers are chosen randomly and tested to see if they divide the chosen "target key." Division is done by repeated subtraction.
+
+For an instance cracking a key of maximum length `N` decimal digits, the address space is sized `5 * N` to be safe. The first `N` are used for the guess at the factor, the second `N` are used for the state of the key (which is subject to mutation by repeated subtraction) and the last 15 or so store various "registers," constants, and indices.
 
 
 
