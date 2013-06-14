@@ -18,8 +18,8 @@ var target_digits = [1,2,5,1];
 var max_digits = 19;
 //var key_digits = [0,6,4,2,3,5,5,2,3];
 //var test_digits = [0,0,0,1,3,5,1,2,1];
-var key_digits = make_digits("22358134151",max_digits);
-var test_digits = make_digits("1823213",max_digits);
+var key_digits = make_digits((2663 * 19).toString(),max_digits);
+var test_digits = make_digits("19",max_digits);
 
 function start_bcfactoring(){
 //  var tst = [{"opcode": "set", "args": [0,2]}, {"opcode": "set", "args": [4,6]}, {"opcode":"dump"}, {"opcode": "set", "args": [1,3]},{"opcode":"mul","args":[3,0,1]}, {"opcode":"dump"},{"opcode": "cmp", "args": [2,3,4]}, {"opcode":"dump"}];
@@ -88,13 +88,6 @@ function start_bcfactoring(){
 	{"op": "set", "args": [loopi,9]},
 	{"op": "set", "args": [ctr1,0]},
 	{"op": "set", "args": [memcond1,cond1]}].concat(unrolled_iters).concat([
-/*	{"op": "lsubi", "args": [nmem, zero, nmem, ctr1]},
-	{"op": "add", "args": [ctr1, one, ctr1]},
-	{"op": "lsubi", "args": [nmem, zero, nmem, ctr1]},
-	{"op": "add", "args": [ctr1, one, ctr1]},
-	{"op": "lsubi", "args": [nmem, zero, nmem, ctr1]},
-	{"op": "add", "args": [ctr1, one, ctr1]},
-	{"op": "lsubi", "args": [nmem, zero, nmem, ctr1]},*/
 	{"op": "lcmp", "args": [memcond1, nmem, zero, nmem]},
 	{"op": "gtc", "args": [cond1, cond1, neg1]},
 	{"op": "dump"},
@@ -102,6 +95,23 @@ function start_bcfactoring(){
 	{"op": "dump"}
   ]);
 
-  vm_interpret(mod_test);
+  var cb = function(mem){
+    if(!is_answer(mem)){
+      vm_interpret(mod_test,cb);
+    } else {
+     alert("Cracked the code: " + JSON.stringify(mem));
+    }
+  };
+  vm_interpret(mod_test,cb);
 }
 
+function is_answer(mem){
+  var ans = true;
+  for(var i = 0; i < max_digits; i++){
+    if(mem[max_digits+i] != 0){
+      ans = false;
+      break;
+    }
+  }
+  return ans;
+}

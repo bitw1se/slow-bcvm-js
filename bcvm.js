@@ -14,11 +14,12 @@ function vm_init(){
 var program = undefined;
 var inst_idx = -1; 
 var vm_timeout = 1;
-
-function vm_interpret(bcodes){
+var end_cb = undefined;
+function vm_interpret(bcodes,cb){
   program = bcodes;
   vm_init();
   inst_idx = 0;
+  end_cb = cb;
   vm_schedule();
 }
 var vms_ctr = 0; 
@@ -36,6 +37,7 @@ function vm_dump(){
 function vm_next(){
   if(inst_idx >= program.length){
     console.log("PROGRAM END");
+    if(end_cb){ end_cb(memory); }
     return;
   } else {
     var inst = program[inst_idx];
@@ -70,6 +72,8 @@ function vm_next(){
       }
     } else if(op == "stxp"){
       memory[inst["args"][0]] = inst_idx;
+    } else if(op == "rndi"){
+      memory[inst["args"][0]] = Math.floor(Math.random() * memory[inst["args"][1]]);
     } else if(op == "ldxp"){
       inst_idx = memory[inst["args"][0]];
     } else if(op == "ldxc"){
