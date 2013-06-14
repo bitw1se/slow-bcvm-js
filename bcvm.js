@@ -54,6 +54,10 @@ function vm_next(){
       memory[inst["args"][0]] = (memory[inst["args"][1]] > memory[inst["args"][2]]) ? 1 : 0;
     } else if(op == "add"){
       memory[inst["args"][0]] = (memory[inst["args"][1]] + memory[inst["args"][2]]);
+    } else if(op == "adm10"){
+      memory[inst["args"][0]] = ((memory[inst["args"][1]] + memory[inst["args"][2]]) % 10);
+    } else if(op == "mod"){
+      memory[inst["args"][0]] = (memory[inst["args"][1]] % memory[inst["args"][2]]);
     } else if(op == "sub"){
       memory[inst["args"][0]] = (memory[inst["args"][1]] - memory[inst["args"][2]]);
     } else if(op == "mul"){
@@ -74,7 +78,7 @@ function vm_next(){
       memory[inst["args"][0]] = inst_idx;
     } else if(op == "rndi"){
       var x = Math.floor(Math.random() * memory[inst["args"][1]]);
-     console.log("Random: " + x.toString() + " (" + inst["args"][0].toString() + ")");
+      //console.log("Random: " + x.toString() + " (" + inst["args"][0].toString() + ")");
       memory[memory[inst["args"][0]]] = x;
     } else if(op == "ldxp"){
       inst_idx = memory[inst["args"][0]];

@@ -55,6 +55,8 @@ function start_bcfactoring(){
   var rndidx = 3*N + 14;
   var rndchk = 3*N + 15;
   var memrndchk = 3*N + 16;
+  var two = 3*N + 17;
+  var three = 3*N + 18;
 
   var unrolled_iters = [];
   var gen_iters = [];
@@ -71,6 +73,18 @@ function start_bcfactoring(){
       {"op": "dump"}
     ]); 
   }
+
+  gen_iters = gen_iters.concat([
+	{"op": "set", "args": [three,3]}]);
+
+  gen_iters = gen_iters.concat([
+      {"op": "mod", "args": [rndchk,N-1,two]},
+      {"op": "gtc", "args": [rndchk,rndchk,zero]},
+      {"op": "stxp", "args": [memrndchk]},
+      {"op": "add", "args": [memrndchk,memrndchk,three]},
+      {"op": "ldxc", "args": [rndchk,memrndchk]},
+      {"op": "adm10", "args": [N-1,N-1,one]}
+  ]);
 /*
   gen_iters = gen_iters.concat([
       {"op": "lcmp", "args": [memrndchk,nmem,zero,nmem]},
@@ -90,14 +104,15 @@ function start_bcfactoring(){
 	{"op": "dump"},
 	{"op": "set", "args": [four, 4]},
 	{"op": "set", "args": [nmem, N]},
-	{"op": "set", "args": [memrndchk, rndchk]},
 	{"op": "set", "args": [one, 1]},
+	{"op": "set", "args": [two, 2]},
 	{"op": "set", "args": [ten, 10]},
 	{"op": "set", "args": [neg1, -1]},
 	{"op": "set", "args": [zero,0]}].concat(gen_iters).concat([
 	{"op": "set", "args": [loopi, 9 + gen_iters.length]},
 	{"op": "set", "args": [ctr1,0]},
 	{"op": "set", "args": [rndctr,3*N + 14]},
+	{"op": "set", "args": [memrndchk, rndchk]},
 	{"op": "set", "args": [rndidx,0]},
 	{"op": "set", "args": [memcond1,cond1]}].concat(unrolled_iters).concat([
 	{"op": "lcmp", "args": [memcond1, nmem, zero, nmem]},

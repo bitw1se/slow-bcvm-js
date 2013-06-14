@@ -24,7 +24,7 @@ Finally, there are a couple special-usage opcodes -- `lsubi` does a single itera
 
 This algorithms I used are very naive. This is mostly for the sake of interestingness (sic) so I wanted it to be somewhat readable. The central idea is that if this website were distributed enough, the total parallel power could still be large, no matter how slow you run the algorithms.
 
-At any rate, numbers are chosen randomly and tested to see if they divide the chosen "target key." Division is done by repeated subtraction.
+At any rate, numbers are chosen randomly and tested to see if they divide the chosen "target key." Even numbers are rejected, considering 2 will not be a prime factor for an RSA key. Division is done by repeated subtraction. It would not be difficult to extend it to do the Fermat primality test and the Euclidean algorithm, which would greatly improve the (algorithmic) runtime. 
 
 For an instance cracking a key of maximum length `N` decimal digits, the address space is sized `5 * N` to be safe. The first `N` are used for the guess at the factor, the second `N` are used for the state of the key (which is subject to mutation by repeated subtraction) and the last 15 or so store various "registers," constants, and indices.
 
