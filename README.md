@@ -2,6 +2,10 @@
 BitCorps Virtual Machine
 ========================
 
+Is it possible to use Javascript to harness tiny bits of processing power in parallel across all the viewers of your web page?
+
+Yes. BCVM demonstrates how this can be done. The main issue is that neither Javascript nor web browsers were intended to be used for computation -- any significant computation will cause visible symptoms that would distress any user and in many cases compromise the stability of their computer. In order to avoid taking *too* much power, BCVM purposefully throttles its own computation. In our example, we show how this kind of script could be use to harness parallel processing power for the purpose of breaking RSA encryption keys. (Breaking an RSA key comes down to factoring a large integer into two primes. There is no known efficient algorithm to do this.) 
+
 To try it out, [view the demo](http://htmlpreview.github.io/?https://github.com/bitw1se/slow-bcvm-js/blob/master/index.html).
 
 BCVM is a basic virtual machine for Javascript built to manipulate arbitrary-precision integers at configurably slow speeds. The motivation is to offload computations onto the client-side seamlessly through Javascript without pegging the user's CPU.
